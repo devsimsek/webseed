@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSeed - Quick Photo Editor</title>
+    <meta name="description" content="WebSeed - A powerful web-based photo editing application with simple filters and effects.">
+    <meta name="author" content="devsimsek">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'webseed-primary': '#667eea',
+                        'webseed-secondary': '#764ba2',
+                        'webseed-accent': '#f093fb'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-webseed-primary via-purple-500 to-webseed-secondary">
+    <!-- Header -->
+    <header class="bg-white/10 backdrop-blur-lg border-b border-white/20">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <span class="text-3xl">🌱</span>
+                    <div>
+                        <h1 class="text-2xl font-bold text-white">WebSeed</h1>
+                        <p class="text-white/80 text-sm">Quick Photo Editor</p>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <p class="text-white/80 text-sm">Built by <a href="https://github.com/devsimsek" target="_blank" class="text-webseed-accent hover:underline">devsimsek</a> with <3</p>
+                    <p class="text-white/60 text-xs">v1.0.0</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-8">
+        <!-- File Input -->
+        <div class="mb-8">
+            <label for="image-input" class="block text-white font-medium mb-2">Upload Image</label>
+            <input type="file" id="image-input" accept="image/*"
+                   class="w-full p-4 bg-white/10 backdrop-blur-lg border-2 border-dashed border-white/30 rounded-xl text-white placeholder-white/60 hover:border-webseed-accent transition-colors cursor-pointer">
+        </div>
+
+        <!-- Main Layout -->
+        <div class="grid lg:grid-cols-3 gap-8">
+            <!-- Canvas Section (Left - 2/3 width) -->
+            <div class="lg:col-span-2">
+                <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
+                    <h2 class="text-xl font-semibold text-white mb-4 flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                        Preview
+                    </h2>
+                    <div class="bg-black/20 rounded-xl p-4 min-h-[400px] flex items-center justify-center">
+                        <canvas id="photo-canvas" class="max-w-full max-h-[500px] rounded-lg shadow-2xl"></canvas>
+                        <div id="canvas-placeholder" class="text-white/60 text-center">
+                            <svg class="w-16 h-16 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                            <p class="text-lg">Upload an image to start editing</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controls Section (Right - 1/3 width) -->
+            <div class="lg:col-span-1">
+                <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 sticky top-8">
+                    <h2 class="text-xl font-semibold text-white mb-6 flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4"></path>
+                        </svg>
+                        Controls
+                    </h2>
+
+                    <!-- Presets -->
+                    <div class="mb-6">
+                        <label for="presets" class="block text-white font-medium mb-2 text-sm uppercase tracking-wide">Quick Presets</label>
+                        <select id="presets" class="w-full p-3 bg-white/10 border border-white/30 rounded-lg text-white backdrop-blur-lg focus:border-webseed-accent focus:outline-none">
+                            <option value="none" class="text-gray-800">None</option>
+                            <option value="vintage" class="text-gray-800">Vintage</option>
+                            <option value="blackwhite" class="text-gray-800">Black & White</option>
+                            <option value="hdr" class="text-gray-800">HDR</option>
+                            <option value="drama" class="text-gray-800">Drama</option>
+                            <option value="grunge" class="text-gray-800">Grunge</option>
+                        </select>
+                    </div>
+
+                    <!-- Controls Grid -->
+                    <div class="space-y-4">
+                        <!-- Brightness -->
+                        <div class="control-group">
+                            <label for="brightness" class="block text-white font-medium mb-2 text-sm uppercase tracking-wide">Brightness</label>
+                            <input type="range" id="brightness" min="-100" max="100" value="0"
+                                   class="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer slider">
+                            <div class="flex justify-between text-xs text-white/60 mt-1">
+                                <span>-100</span>
+                                <span id="brightness-value" class="font-medium text-white">0</span>
+                                <span>100</span>
+                            </div>
+                        </div>
+
+                        <!-- Contrast -->
+                        <div class="control-group">
+                            <label for="contrast" class="block text-white font-medium mb-2 text-sm uppercase tracking-wide">Contrast</label>
+                            <input type="range" id="contrast" min="0" max="200" value="100"
+                                   class="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer slider">
+                            <div class="flex justify-between text-xs text-white/60 mt-1">
+                                <span>0</span>
+                                <span id="contrast-value" class="font-medium text-white">100</span>
+                                <span>200</span>
+                            </div>
+                        </div>
+
+                        <!-- Saturation -->
+                        <div class="control-group">
+                            <label for="saturation" class="block text-white font-medium mb-2 text-sm uppercase tracking-wide">Saturation</label>
+                            <input type="range" id="saturation" min="0" max="200" value="100"
+                                   class="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer slider">
+                            <div class="flex justify-between text-xs text-white/60 mt-1">
+                                <span>0</span>
+                                <span id="saturation-value" class="font-medium text-white">100</span>
+                                <span>200</span>
+                            </div>
+                        </div>
+
+                        <!-- Temperature -->
+                        <div class="control-group">
+                            <label for="temperature" class="block text-white font-medium mb-2 text-sm uppercase tracking-wide">Temperature</label>
+                            <input type="range" id="temperature" min="-100" max="100" value="0"
+                                   class="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer slider">
+                            <div class="flex justify-between text-xs text-white/60 mt-1">
+                                <span>-100</span>
+                                <span id="temperature-value" class="font-medium text-white">0</span>
+                                <span>100</span>
+                            </div>
+                        </div>
+
+                        <!-- Tint -->
+                        <div class="control-group">
+                            <label for="tint" class="block text-white font-medium mb-2 text-sm uppercase tracking-wide">Tint</label>
+                            <input type="range" id="tint" min="-100" max="100" value="0"
+                                   class="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer slider">
+                            <div class="flex justify-between text-xs text-white/60 mt-1">
+                                <span>-100</span>
+                                <span id="tint-value" class="font-medium text-white">0</span>
+                                <span>100</span>
+                            </div>
+                        </div>
+
+                        <!-- Highlights -->
+                        <div class="control-group">
+                            <label for="highlights" class="block text-white font-medium mb-2 text-sm uppercase tracking-wide">Highlights</label>
+                            <input type="range" id="highlights" min="-100" max="100" value="0"
+                                   class="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer slider">
+                            <div class="flex justify-between text-xs text-white/60 mt-1">
+                                <span>-100</span>
+                                <span id="highlights-value" class="font-medium text-white">0</span>
+                                <span>100</span>
+                            </div>
+                        </div>
+
+                        <!-- Shadows -->
+                        <div class="control-group">
+                            <label for="shadows" class="block text-white font-medium mb-2 text-sm uppercase tracking-wide">Shadows</label>
+                            <input type="range" id="shadows" min="-100" max="100" value="0"
+                                   class="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer slider">
+                            <div class="flex justify-between text-xs text-white/60 mt-1">
+                                <span>-100</span>
+                                <span id="shadows-value" class="font-medium text-white">0</span>
+                                <span>100</span>
+                            </div>
+                        </div>
+
+                        <!-- Whites -->
+                        <div class="control-group">
+                            <label for="whites" class="block text-white font-medium mb-2 text-sm uppercase tracking-wide">Whites</label>
+                            <input type="range" id="whites" min="-100" max="100" value="0"
+                                   class="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer slider">
+                            <div class="flex justify-between text-xs text-white/60 mt-1">
+                                <span>-100</span>
+                                <span id="whites-value" class="font-medium text-white">0</span>
+                                <span>100</span>
+                            </div>
+                        </div>
+
+                        <!-- Blacks -->
+                        <div class="control-group">
+                            <label for="blacks" class="block text-white font-medium mb-2 text-sm uppercase tracking-wide">Blacks</label>
+                            <input type="range" id="blacks" min="-100" max="100" value="0"
+                                   class="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer slider">
+                            <div class="flex justify-between text-xs text-white/60 mt-1">
+                                <span>-100</span>
+                                <span id="blacks-value" class="font-medium text-white">0</span>
+                                <span>100</span>
+                            </div>
+                        </div>
+
+                        <!-- Vignette -->
+                        <div class="control-group">
+                            <label for="vignette" class="block text-white font-medium mb-2 text-sm uppercase tracking-wide">Vignette</label>
+                            <input type="range" id="vignette" min="0" max="100" value="0"
+                                   class="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer slider">
+                            <div class="flex justify-between text-xs text-white/60 mt-1">
+                                <span>0</span>
+                                <span id="vignette-value" class="font-medium text-white">0</span>
+                                <span>100</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Download Button -->
+                    <div class="mt-8">
+                        <button id="download-btn" disabled
+                                class="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold py-3 px-6 rounded-lg disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed hover:from-green-600 hover:to-emerald-700 transition-all duration-200 transform hover:scale-105 disabled:hover:scale-100">
+                            <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                            Download Image
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Custom Styles -->
+    <style>
+        .slider::-webkit-slider-thumb {
+            appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .slider::-moz-range-thumb {
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        #photo-canvas {
+            display: none;
+        }
+
+        #canvas-placeholder {
+            display: block;
+        }
+
+        .canvas-loaded #photo-canvas {
+            display: block;
+        }
+
+        .canvas-loaded #canvas-placeholder {
+            display: none;
+        }
+    </style>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

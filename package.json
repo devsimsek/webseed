@@ -1,0 +1,39 @@
+{
+  "name": "webseed",
+  "version": "1.0.0",
+  "description": "A powerful, web-based photo editing application with some filters and effects",
+  "main": "index.html",
+  "scripts": {
+    "start": "python3 -m http.server 8000",
+    "serve": "npx serve .",
+    "dev": "python3 -m http.server 8000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devsimsek/webseed.git"
+  },
+  "keywords": [
+    "photo-editor",
+    "image-processing",
+    "web-app",
+    "canvas",
+    "javascript",
+    "filters",
+    "photography"
+  ],
+  "author": "devsimsek",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/devsimsek/webseed/issues"
+  },
+  "homepage": "https://github.com/devsimsek/webseed#readme",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}
+
